@@ -35,7 +35,7 @@ end
 lua example.lua <your_auth_token>
 ```
 
-You will need Lua 5.1+. The only dependencies are `luasocket` and `luasec`:
+You will need Lua 5.1+ or LuaJIT. The only dependencies are `luasocket` and `luasec`:
 
 ```sh
 Ubuntu/Linux:  sudo apt-get install lua5.3 lua-sec lua-socket
