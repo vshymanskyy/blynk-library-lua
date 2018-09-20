@@ -11,7 +11,7 @@ local auth = arg[1]
 
 local blynk = Blynk.new(auth, {
   heartbeat = 10, -- default h-beat is 30
-  log = print,
+  --log = print,
 })
 
 local function connect()
