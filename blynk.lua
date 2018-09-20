@@ -8,6 +8,8 @@ local STATE_CONNECTING = "connecting"
 local STATE_CONNECT    = "connected"
 local STATE_DISCONNECT = "disconnected"
 
+local unpack = table.unpack or unpack  --for Lua 5.1, 5.2, 5.3 compatibility
+
 local function split(str, delimiter)
   local result = { }
   local from  = 1
@@ -32,7 +34,7 @@ Blynk._VERSION = "0.1.0"
 Blynk.__index = Blynk
 
 function Blynk.new(auth, o)
-  assert(string.len(auth) == 32, "Wrong auth token format") --sanity check
+  assert(string.len(auth) == 32, "Wrong auth token format")  --sanity check
   o = o or {}
   local self = setmetatable(o, Blynk)
   self.auth = auth
@@ -40,18 +42,18 @@ function Blynk.new(auth, o)
 end
 
 function Blynk:on(evt, fun) self.callbacks[evt] = fun; return self end
-function Blynk:emit(evt, ...) local fun = self.callbacks[evt]; if fun ~= nil then fun(unpack(arg)) end end
+function Blynk:emit(evt, ...) local fun = self.callbacks[evt]; if fun ~= nil then fun(...) end end
 
 function Blynk:virtualWrite(pin, ...)
-  self:sendMsg(COMMAND.hw, nil, 'vw\0'..pin..'\0'..table.concat(arg, '\0'))
+  self:sendMsg(COMMAND.hw, nil, 'vw\0'..pin..'\0'..table.concat({...}, '\0'))
 end
 
 function Blynk:setProperty(pin, prop, ...)
-  self:sendMsg(COMMAND.set_prop, nil, pin..'\0'..prop..'\0'..table.concat(arg, '\0'))
+  self:sendMsg(COMMAND.set_prop, nil, pin..'\0'..prop..'\0'..table.concat({...}, '\0'))
 end
 
 function Blynk:syncVirtual(...)
-  self:sendMsg(COMMAND.hw_sync, nil, 'vr\0'..table.concat(arg, '\0'))
+  self:sendMsg(COMMAND.hw_sync, nil, 'vr\0'..table.concat({...}, '\0'))
 end
 
 function Blynk:logEvent(evt, descr)
@@ -80,7 +82,7 @@ function Blynk:sendMsg(cmd, id, payload)
 end
 
 function Blynk:connect(client)
-  assert(client) --sanity check
+  assert(client)  --sanity check
   self.client = client
   self.msg_id = 1
   self.lastRecv, self.lastSend, self.lastPing = gettime(), 0, 0
@@ -118,11 +120,11 @@ function Blynk:run()
     (string.byte(s,2) * 256 + string.byte(s,3)),
     (string.byte(s,4) * 256 + string.byte(s,5))
 
-  if i == 0 then return self:setState(STATE_DISCONNECT) end --sanity check
+  if i == 0 then return self:setState(STATE_DISCONNECT) end  --sanity check
   self.lastRecv = now
   if cmd == COMMAND.rsp then
     self.log('> '..cmd..'|'..len)
-    if self.state == STATE_CONNECTING and i == 1 then --login command
+    if self.state == STATE_CONNECTING and i == 1 then  --login command
       if len == STATUS.success then
         local ping = now - self.lastSend
         local info = {'ver', self._VERSION, 'h-beat', self.heartbeat, 'buff-in', self.buffin, 'dev', 'lua' }
@@ -134,7 +136,7 @@ function Blynk:run()
     end
     return
   end
-  if len >= self.buffin then --sanity check
+  if len >= self.buffin then  --sanity check
     print("Unexpected command: "..cmd)
     return self:setState(STATE_DISCONNECT)
   end
@@ -153,7 +155,7 @@ function Blynk:run()
   elseif cmd == COMMAND.debug then
     print("Server says: "..args[1])
   elseif cmd == COMMAND.internal then
-  else --sanity check
+  else  --sanity check
     print("Unexpected command: "..cmd)
     self:setState(STATE_DISCONNECT)
   end
