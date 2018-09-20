@@ -31,11 +31,13 @@ while true do
 end
 ```
 
+You can run the [full example](examples/client.lua):
+
 ```sh
-lua example.lua <your_auth_token>
+lua ./examples/client.lua <your_auth_token>
 ```
 
-You will need Lua 5.1+ or LuaJIT. The only dependencies are `luasocket` and `luasec`:
+You will need `Lua 5.1`+ or `LuaJIT`. The only dependencies are `luasocket` and `luasec`:
 
 ```sh
 Ubuntu/Linux:  sudo apt-get install lua5.3 lua-sec lua-socket
@@ -43,13 +45,13 @@ OpenWrt:       opkg install lua luasocket luasec
 ```
 
 ## Features
-- [x] `TCP` and secure `SSL` connection support
-- [x] `virtualWrite`
-- [x] `syncVirtual`
-- [x] `setProperty`
-- [x] `logEvent`
-- [x] events: `Vn`, `readVn`, `connected`, `disconnected`
-
+- `virtualWrite`
+- `syncVirtual`
+- `setProperty`
+- `logEvent`
+- events: `Vn`, `readVn`, `connected`, `disconnected`
+- TCP` and secure `SSL` connection support
+- can run on embedded hardware, like `NodeMCU` or `OpenWrt`
 
 ## Bonus
 
@@ -65,3 +67,16 @@ local function delay(msec)
   return socket.sleep(msec/1000)
 end
 ```
+
+## NodeMCU instructions
+
+It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-based device):
+- Get the latest [nodemcu-firmware](https://github.com/nodemcu/nodemcu-firmware) running on your device.  
+  You can use their [online build service](https://nodemcu-build.com/).
+- Edit `nodemcu.lua` example (put your `auth token` and wifi credentials)
+- Install `nodemcu-tool` or use any other method to transfer lua files to the device:
+    ```sh
+    nodemcu-tool upload ./blynk.lua
+    nodemcu-tool upload ./examples/nodemcu.lua -n init.lua
+    ```
+- Reboot your device so it starts running `init.lua`
