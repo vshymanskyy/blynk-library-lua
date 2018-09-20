@@ -1,6 +1,12 @@
 --[[ Copyright (c) 2018 Volodymyr Shymanskyy. See the file LICENSE for copying permission. ]]
 
-local gettime = require("socket").gettime
+local gettime
+
+if tmr then  -- for NodeMCU
+	gettime = function() return math.floor(tmr.now()/1000000) end
+else
+ 	gettime = require("socket").gettime
+end
 
 local COMMAND = { rsp = 0, login = 2, ping = 6, tweet = 12, email = 13, notify = 14, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, debug = 55, event = 64 }
 local STATUS = { success = 200, illegal_command = 2, not_registered = 3, not_authenticated = 5, invalid_token = 9 }
@@ -90,6 +96,10 @@ function Blynk:connect(client)
   self:sendMsg(COMMAND.login, nil, self.auth)
 end
 
+function Blynk:disconnect()
+  self:setState(STATE_DISCONNECT)
+end
+
 function Blynk:setState(s)
   if self.state == s then return end
   self.log("State: "..self.state.." => "..s)
@@ -137,7 +147,7 @@ function Blynk:run()
     return
   end
   if len >= self.buffin then  --sanity check
-    print("Unexpected command: "..cmd)
+    print("Cmd too big: "..cmd)
     return self:setState(STATE_DISCONNECT)
   end
   local payload = self.client:receive(len)
