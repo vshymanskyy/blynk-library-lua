@@ -14,19 +14,18 @@ local blynk = Blynk.new(auth, {
   --log = print,
 })
 
-local function connect()
-  print("Connecting...")
-
+local function connectBlynk()
   local sock = assert(socket.tcp())
   sock:setoption("tcp-nodelay", true)
 
   if use_ssl then
+    print("Connecting Blynk (secure)...")
     sock:connect("blynk-cloud.com", 8441)
-    print("SSL handshake...")
     -- TODO: verify the server certificate, etc.
     sock = assert(ssl.wrap(sock, { mode = "client", protocol = "tlsv1" }))
     sock:dohandshake()
   else
+    print("Connecting Blynk...")
     sock:connect("blynk-cloud.com", 80)
   end
 
@@ -47,7 +46,7 @@ blynk:on("disconnected", function()
   print("Disconnected.")
   -- auto-reconnect after 5 seconds
   socket.sleep(5)
-  connect()
+  connectBlynk()
 end)
 
 -- callback to run when V1 changes
@@ -65,7 +64,7 @@ local tmr1 = Timer:new{interval = 5000, func = function()
   blynk:setProperty(2, "label", os.time())
 end}
 
-connect()
+connectBlynk()
 
 while true do
   blynk:run()
