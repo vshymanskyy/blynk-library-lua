@@ -72,9 +72,10 @@ end
 
 It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-based device):
 - Get the latest [nodemcu-firmware](https://github.com/nodemcu/nodemcu-firmware) running on your device.  
-  You can use their [online build service](https://nodemcu-build.com/).
+  You can use their [online build service](https://nodemcu-build.com/).  
+  It is recommended to include `encoder`, `TLS/SSL` modules.
 - Edit `nodemcu.lua` example (put your `auth token` and wifi credentials)
-- Install `nodemcu-tool` or use any other method to transfer lua files to the device:
+- Use `nodemcu-tool` or any other method to transfer lua files to the device:
     ```sh
     nodemcu-tool upload ./blynk.lua
     nodemcu-tool upload ./examples/nodemcu.lua -n init.lua
