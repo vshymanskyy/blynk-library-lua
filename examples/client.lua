@@ -1,5 +1,9 @@
 #!/usr/bin/env lua
 
+--[[
+  This is the default example for Linux, Windows, OpenWrt
+]]
+
 local socket = require("socket")
 local use_ssl, ssl = pcall(require, "ssl")
 
@@ -70,3 +74,4 @@ while true do
   blynk:run()
   tmr1:run()
 end
+
