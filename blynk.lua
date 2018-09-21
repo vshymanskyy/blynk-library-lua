@@ -110,7 +110,7 @@ end
 function Blynk:run()
   if not (self.state == STATE_CONNECT or self.state == STATE_CONNECTING) then return end
   local now = gettime()
-  if now - self.lastRecv > self.heartbeat*1.5 then
+  if now - self.lastRecv > self.heartbeat+(self.heartbeat/2) then
     return self:setState(STATE_DISCONNECT)
   end
   if now - self.lastPing > self.heartbeat/10 and
