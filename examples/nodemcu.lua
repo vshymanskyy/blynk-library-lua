@@ -3,8 +3,6 @@
   This is an example for NodeMCU (ESP8266)
 ]]
 
-local use_tls, tls --TODO: = pcall(require, "tls")
-
 local Blynk = require("blynk")
 
 local config = {
@@ -20,15 +18,16 @@ local blynk = Blynk.new(config.auth, {
 
 local function connectBlynk()
   local sock, port
-  if use_tls then
+  --[[TODO: TLS didn't work for some reason, commented out
+  if tls ~= nil then
     sock = tls.createConnection()
     port = 8441
     print("Connecting Blynk (secure)...")
-  else
+  else]]
     sock = net.createConnection(net.TCP)
     port = 80
     print("Connecting Blynk...")
-  end
+  --end
 
   local adapter = {
     buff_in = "",
