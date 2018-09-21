@@ -1,4 +1,4 @@
-# Blynk client for Lua
+# Lua client for Blynk
 
 ## Getting started
 
@@ -6,7 +6,7 @@
 local socket = require("socket")
 local Blynk = require("blynk")
 
-local blynk = Blynk.new(arg[1])
+local blynk = Blynk.new("your_auth_token")
 
 local function connect()
   local sock = getSocketConnection() -- omitted
