@@ -50,7 +50,7 @@ OpenWrt:       opkg install lua luasocket luasec
 - `setProperty`
 - `logEvent`
 - events: `Vn`, `readVn`, `connected`, `disconnected`
-- TCP` and secure `SSL` connection support
+- `TCP` and secure `TLS/SSL` connection support
 - can run on embedded hardware, like `NodeMCU` or `OpenWrt`
 
 ## Bonus
