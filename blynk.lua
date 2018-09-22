@@ -1,20 +1,14 @@
 --[[ Copyright (c) 2018 Volodymyr Shymanskyy. See the file LICENSE for copying permission. ]]
 
-local gettime
-
-if tmr then  -- for NodeMCU
-	gettime = function() return math.floor(tmr.now()/1000000) end
-else
- 	gettime = require("socket").gettime
-end
+local Pipe = require("pipe")
 
 local COMMAND = { rsp = 0, login = 2, ping = 6, tweet = 12, email = 13, notify = 14, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, debug = 55, event = 64 }
-local STATUS = { success = 200, illegal_command = 2, not_registered = 3, not_authenticated = 5, invalid_token = 9 }
-local STATE_CONNECTING = "connecting"
+local STATUS = { success = 200, invalid_token = 9 }
+local STATE_CONNECTING = "..."
 local STATE_CONNECT    = "connected"
 local STATE_DISCONNECT = "disconnected"
 
-local unpack = table.unpack or unpack  --for Lua 5.1, 5.2, 5.3 compatibility
+local unpack = table.unpack or unpack
 
 local function split(str, delimiter)
   local result = { }
@@ -29,14 +23,15 @@ local function split(str, delimiter)
   return result
 end
 
-Blynk = {
+local Blynk = {
   heartbeat = 10,
-  buffin = 4096,
+  buffin = 1024,
   callbacks = {},
   state = STATE_DISCONNECT,
-  log = function(...) end
+  log = function(...) end,
+  _gettime = function() return os.time() end,
 }
-Blynk._VERSION = "0.1.0"
+Blynk._VERSION = "0.1.1"
 Blynk.__index = Blynk
 
 function Blynk.new(auth, o)
@@ -44,6 +39,7 @@ function Blynk.new(auth, o)
   o = o or {}
   local self = setmetatable(o, Blynk)
   self.auth = auth
+  self.bin = Pipe.new()
   return self
 end
 
@@ -80,38 +76,34 @@ function Blynk:sendMsg(cmd, id, payload)
     string.char(math.floor(id/256)),  string.char(id%256),
     string.char(math.floor(len/256)), string.char(len%256)
   } .. payload
-  self.lastSend = gettime()
-  res, status = self.client:send(msg)
-  if res == nil and status == 'closed' then
-    self:setState(STATE_DISCONNECT)
-  end
+  self.lastSend = self._gettime()
+  self._send(msg)
 end
 
-function Blynk:connect(client)
-  assert(client)  --sanity check
-  self.client = client
+function Blynk:connect()
   self.msg_id = 1
-  self.lastRecv, self.lastSend, self.lastPing = gettime(), 0, 0
+  self.lastRecv, self.lastSend, self.lastPing = self._gettime(), 0, 0
+  self.bin:clear()
   self:setState(STATE_CONNECTING)
   self:sendMsg(COMMAND.login, nil, self.auth)
 end
 
 function Blynk:disconnect()
   self:setState(STATE_DISCONNECT)
+  self:emit(STATE_DISCONNECT)
 end
 
 function Blynk:setState(s)
   if self.state == s then return end
   self.log("State: "..self.state.." => "..s)
   self.state = s
-  if s == STATE_CONNECT or s == STATE_DISCONNECT then self:emit(s) end
 end
 
-function Blynk:run()
+function Blynk:process(data)
   if not (self.state == STATE_CONNECT or self.state == STATE_CONNECTING) then return end
-  local now = gettime()
+  local now = self._gettime()
   if now - self.lastRecv > self.heartbeat+(self.heartbeat/2) then
-    return self:setState(STATE_DISCONNECT)
+    return self:disconnect()
   end
   if now - self.lastPing > self.heartbeat/10 and
      (now - self.lastSend > self.heartbeat or
@@ -121,37 +113,41 @@ function Blynk:run()
     self.lastPing = now
   end
 
-  local s, status, partial = self.client:receive(5)
-  if s == nil then
-    if status == "closed" then self:setState(STATE_DISCONNECT) end
-    return
-  end
+  if data then self.bin:push(data) end
+
+  while true do
+--
+  local s = self.bin:pull(5)
+  if s == nil then return end
+
   local cmd, i, len = (string.byte(s,1)),
     (string.byte(s,2) * 256 + string.byte(s,3)),
     (string.byte(s,4) * 256 + string.byte(s,5))
 
-  if i == 0 then return self:setState(STATE_DISCONNECT) end  --sanity check
+  if i == 0 then return self:disconnect() end  --sanity check
   self.lastRecv = now
   if cmd == COMMAND.rsp then
     self.log('> '..cmd..'|'..len)
     if self.state == STATE_CONNECTING and i == 1 then  --login command
       if len == STATUS.success then
+        self:setState(STATE_CONNECT)
         local ping = now - self.lastSend
         local info = {'ver', self._VERSION, 'h-beat', self.heartbeat, 'buff-in', self.buffin, 'dev', 'lua' }
         self:sendMsg(COMMAND.internal, nil, table.concat(info, '\0'))
-        self:setState(STATE_CONNECT)
-        self:emit("ping", ping)
-      elseif len == STATUS.invalid_token then self:setState("invalid_auth")
-      else self:setState(STATE_DISCONNECT) end
+        self:emit(STATE_CONNECT, ping)
+      elseif len == STATUS.invalid_token then
+        print("Invalid auth token")
+        self:disconnect()
+      else self:disconnect() end
     end
-    return
-  end
+  else
+  --
   if len >= self.buffin then  --sanity check
-    print("Cmd too big: "..cmd)
-    return self:setState(STATE_DISCONNECT)
+    print("Cmd too big: "..len)
+    return self:disconnect()
   end
-  local payload = self.client:receive(len)
-  if payload == nil then return end
+  local payload = self.bin:pull(len)
+  if payload == nil then return self.bin:back(s) end --put the header back
   local args = split(payload, "\0")
   self.log('> '..cmd..'|'..table.concat(args, ','))
   if cmd == COMMAND.ping then
@@ -167,7 +163,11 @@ function Blynk:run()
   elseif cmd == COMMAND.internal then
   else  --sanity check
     print("Unexpected command: "..cmd)
-    self:setState(STATE_DISCONNECT)
+    self:disconnect()
+  end
+  --
+  end
+--
   end
 end
 

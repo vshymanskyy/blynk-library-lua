@@ -7,7 +7,7 @@
 local socket = require("socket")
 local use_ssl, ssl = pcall(require, "ssl")
 
-local Blynk = require("blynk")
+local Blynk = require("blynk.socket")
 local Timer = require("timer")
 
 assert(#arg >= 1, "Please specify Auth Token")
@@ -19,29 +19,31 @@ local blynk = Blynk.new(auth, {
 })
 
 local function connectBlynk()
+  local host = "blynk-cloud.com"
+
   local sock = assert(socket.tcp())
   sock:setoption("tcp-nodelay", true)
 
   if use_ssl then
     print("Connecting Blynk (secure)...")
-    sock:connect("blynk-cloud.com", 8441)
-    -- TODO: verify the server certificate, etc.
-    sock = assert(ssl.wrap(sock, { mode = "client", protocol = "tlsv1" }))
+    sock:connect(host, 8441)
+    local opts = {
+      mode = "client",
+      protocol = "tlsv1"
+    }
+    sock = assert(ssl.wrap(sock, opts))
     sock:dohandshake()
   else
     print("Connecting Blynk...")
-    sock:connect("blynk-cloud.com", 80)
+    sock:connect(host, 80)
   end
-
-  -- set timeout, so blynk:run() won't freeze while waiting for input
-  sock:settimeout(0.01)
 
   -- tell Blynk to use this socket
   blynk:connect(sock)
 end
 
-blynk:on("connected", function()
-  print("Ready.")
+blynk:on("connected", function(ping)
+  print("Ready. Ping: "..math.floor(ping*1000).."ms")
   -- whenever we connect, request an update of V1
   blynk:syncVirtual(1)
 end)
@@ -74,4 +76,3 @@ while true do
   blynk:run()
   tmr1:run()
 end
-

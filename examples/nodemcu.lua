@@ -3,7 +3,7 @@
   This is an example for NodeMCU (ESP8266)
 ]]
 
-local Blynk = require("blynk")
+local Blynk = require("blynk.nodemcu")
 
 local config = {
   auth = "YourAuthToken",
@@ -11,47 +11,28 @@ local config = {
   pwd  = "YourPassword",
 }
 
-local blynk = Blynk.new(config.auth, {
+blynk = Blynk.new(config.auth, {
   heartbeat = 10, -- default h-beat is 30
   --log = print,
 })
 
 local function connectBlynk()
+  local host = "blynk-cloud.com"
+
   local sock, port
   --[[TODO: TLS didn't work for some reason, commented out
   if tls ~= nil then
+    print("Connecting Blynk (secure)...")
     sock = tls.createConnection()
     port = 8441
-    print("Connecting Blynk (secure)...")
   else]]
+    print("Connecting Blynk...")
     sock = net.createConnection(net.TCP)
     port = 80
-    print("Connecting Blynk...")
   --end
 
-  local adapter = {
-    buff_in = "",
-    push = function(self, data)
-      self.buff_in = self.buff_in .. data
-    end,
-    receive = function(self, len)
-      if self.buff_in:len() >= len then
-        local res = self.buff_in:sub(1,len)
-        self.buff_in = self.buff_in:sub(len+1)
-        return res
-      end
-      return nil, "wait"
-    end,
-    send = function(self, data)
-      sock:send(data)
-      return true
-    end
-  }
-
-  sock:on("receive", function(s, data) adapter:push(data); blynk:run() end)
-  sock:on("connection",    function(s) blynk:connect(adapter) end)
-  sock:on("disconnection", function(s) blynk:disconnect() end)
-  sock:connect(port, "blynk-cloud.com")
+  sock:on("connection", function(s) blynk:connect(s) end)
+  sock:connect(port, host)
 end
 
 -- connect wifi
@@ -60,8 +41,8 @@ wifi.setmode(wifi.STATION)
 wifi.sta.config(config)
 wifi.sta.connect(connectBlynk)
 
-blynk:on("connected", function()
-  print("Ready.")
+blynk:on("connected", function(ping)
+  print("Ready. Ping: "..math.floor(ping*1000).."ms")
   -- whenever we connect, request an update of V1
   blynk:syncVirtual(1)
 end)
@@ -82,4 +63,3 @@ local periodic = tmr.create()
 periodic:alarm(1000, tmr.ALARM_AUTO, function()
   blynk:run()
 end)
-
