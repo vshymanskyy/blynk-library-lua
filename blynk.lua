@@ -31,7 +31,7 @@ local Blynk = {
   log = function(...) end,
   _gettime = function() return os.time() end,
 }
-Blynk._VERSION = "0.1.1"
+Blynk._VERSION = "0.1.2"
 Blynk.__index = Blynk
 
 function Blynk.new(auth, o)
@@ -84,19 +84,13 @@ function Blynk:connect()
   self.msg_id = 1
   self.lastRecv, self.lastSend, self.lastPing = self._gettime(), 0, 0
   self.bin:clear()
-  self:setState(STATE_AUTH)
+  self.state = STATE_AUTH
   self:sendMsg(COMMAND.login, nil, self.auth)
 end
 
 function Blynk:disconnect()
-  self:setState(STATE_DISCONNECT)
+  self.state = STATE_DISCONNECT
   self:emit(STATE_DISCONNECT)
-end
-
-function Blynk:setState(s)
-  if self.state == s then return end
-  self.log("State: "..self.state.." => "..s)
-  self.state = s
 end
 
 function Blynk:process(data)
@@ -130,7 +124,7 @@ function Blynk:process(data)
     self.log('> '..cmd..'|'..len)
     if self.state == STATE_AUTH and i == 1 then  --login command
       if len == STATUS.success then
-        self:setState(STATE_CONNECT)
+        self.state = STATE_CONNECT
         local ping = now - self.lastSend
         local info = {'ver', self._VERSION, 'h-beat', self.heartbeat, 'buff-in', self.buffin, 'dev', 'lua' }
         self:sendMsg(COMMAND.internal, nil, table.concat(info, '\0'))
