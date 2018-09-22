@@ -3,16 +3,9 @@
 ## Getting started
 
 ```lua
-local socket = require("socket")
-local Blynk = require("blynk")
+local Blynk = require("blynk.socket")
 
 local blynk = Blynk.new("your_auth_token")
-
-local function connect()
-  local sock = getSocketConnection() -- omitted
-  sock:settimeout(0.01)
-  blynk:connect(sock)
-end
 
 -- callback to run when V1 changes
 blynk:on("V1", function(param)
@@ -24,7 +17,8 @@ blynk:on("readV2", function(param)
   blynk:virtualWrite(2, os.time())
 end)
 
-connect()
+local sock = getSocketConnection() -- omitted
+blynk:connect(sock)
 
 while true do
   blynk:run()
