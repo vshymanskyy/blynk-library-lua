@@ -4,7 +4,7 @@ local Pipe = require("blynk.pipe")
 
 local COMMAND = { rsp = 0, login = 2, ping = 6, tweet = 12, email = 13, notify = 14, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, debug = 55, event = 64 }
 local STATUS = { success = 200, invalid_token = 9 }
-local STATE_CONNECTING = "..."
+local STATE_AUTH = "auth"
 local STATE_CONNECT    = "connected"
 local STATE_DISCONNECT = "disconnected"
 
@@ -63,7 +63,7 @@ function Blynk:logEvent(evt, descr)
 end
 
 function Blynk:sendMsg(cmd, id, payload)
-  if self.state ~= STATE_CONNECT and self.state ~= STATE_CONNECTING then return end
+  if self.state ~= STATE_CONNECT and self.state ~= STATE_AUTH then return end
   payload = payload or ''
   if id == nil then
     id = self.msg_id
@@ -84,7 +84,7 @@ function Blynk:connect()
   self.msg_id = 1
   self.lastRecv, self.lastSend, self.lastPing = self._gettime(), 0, 0
   self.bin:clear()
-  self:setState(STATE_CONNECTING)
+  self:setState(STATE_AUTH)
   self:sendMsg(COMMAND.login, nil, self.auth)
 end
 
@@ -100,7 +100,7 @@ function Blynk:setState(s)
 end
 
 function Blynk:process(data)
-  if not (self.state == STATE_CONNECT or self.state == STATE_CONNECTING) then return end
+  if not (self.state == STATE_CONNECT or self.state == STATE_AUTH) then return end
   local now = self._gettime()
   if now - self.lastRecv > self.heartbeat+(self.heartbeat/2) then
     return self:disconnect()
@@ -128,7 +128,7 @@ function Blynk:process(data)
   self.lastRecv = now
   if cmd == COMMAND.rsp then
     self.log('> '..cmd..'|'..len)
-    if self.state == STATE_CONNECTING and i == 1 then  --login command
+    if self.state == STATE_AUTH and i == 1 then  --login command
       if len == STATUS.success then
         self:setState(STATE_CONNECT)
         local ping = now - self.lastSend
