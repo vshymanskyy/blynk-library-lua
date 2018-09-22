@@ -1,3 +1,5 @@
+--[[ Copyright (c) 2018 Volodymyr Shymanskyy. See the file LICENSE for copying permission. ]]
+
 local Pipe = { b = "" }
 Pipe.__index = Pipe
 

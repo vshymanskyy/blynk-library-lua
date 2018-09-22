@@ -1,6 +1,7 @@
 --[[ Copyright (c) 2018 Volodymyr Shymanskyy. See the file LICENSE for copying permission. ]]
 
 local Blynk = require("blynk")
+local Pipe = require("blynk.pipe")
 
 local BlynkImpl = setmetatable( {}, { __index = Blynk } )
 
@@ -11,8 +12,21 @@ function BlynkImpl.new(...)
 end
 
 function BlynkImpl:connect(sock)
-  self._send = function(data) sock:send(data) end
+  local canSend = true
+  local pipe = Pipe.new()
 
+  self._send = function(data)
+    if data then pipe:push(data) end
+    if canSend then
+      local d = pipe:pull()
+      if d:len() > 0 then
+        canSend = false
+        sock:send(d)
+      end
+    end
+  end
+
+  sock:on("sent",    function(s) canSend = true; self._send() end)
   sock:on("receive", function(s, data) self:process(data) end)
   sock:on("disconnection", function(s) self:disconnect() end)
 
