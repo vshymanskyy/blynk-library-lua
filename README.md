@@ -77,16 +77,10 @@ It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-bas
 - Edit `nodemcu.lua` example (put your `auth token` and wifi credentials)
 - Use `nodemcu-tool` or any other method to transfer lua files to the device:
     ```sh
-    nodemcu-tool upload ./blynk.lua
-    nodemcu-tool upload ./pipe.lua
-    nodemcu-tool upload --keeppath ./blynk/nodemcu.lua
+    nodemcu-tool upload -mck ./blynk.lua
+    nodemcu-tool upload -mck ./blynk/pipe.lua
+    nodemcu-tool upload -mck ./blynk/nodemcu.lua
     nodemcu-tool upload ./examples/nodemcu.lua -n example.lua
     ```
 - Open device terminal and run `dofile("example.lua")`
 
-It is also recommended to precompile library files:
-```lua
-node.compile("blynk.lua")
-node.compile("pipe.lua")
-node.compile("blynk/nodemcu.lua")
-```
