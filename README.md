@@ -72,7 +72,10 @@ It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-bas
 - Use `nodemcu-tool` or any other method to transfer lua files to the device:
     ```sh
     nodemcu-tool upload -mck ./blynk.lua ./blynk/pipe.lua ./blynk/nodemcu.lua
-    nodemcu-tool upload ./examples/nodemcu.lua -n example.lua
+    nodemcu-tool upload ./examples/nodemcu.lua -n init.lua
     ```
-- Open device terminal and run `dofile("example.lua")`
-
+- Open device terminal and run `dofile("init.lua")`
+- `blynk` object is global, so you can call it from the interactive console:
+    ```lua
+    blynk:virtualWrite(1, tmr.time())
+    ```
