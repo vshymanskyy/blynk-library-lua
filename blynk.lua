@@ -1,6 +1,6 @@
 --[[ Copyright (c) 2018 Volodymyr Shymanskyy. See the file LICENSE for copying permission. ]]
 
-local Pipe = require("pipe")
+local Pipe = require("blynk.pipe")
 
 local COMMAND = { rsp = 0, login = 2, ping = 6, tweet = 12, email = 13, notify = 14, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, debug = 55, event = 64 }
 local STATUS = { success = 200, invalid_token = 9 }
