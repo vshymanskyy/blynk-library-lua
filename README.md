@@ -62,6 +62,23 @@ local function delay(msec)
 end
 ```
 
+## OpenWrt instructions
+
+```sh
+opkg update
+opkg install lua luasocket luasec
+# openssl is needed for wget to handle https://
+opkg install openssl-util
+
+# Get blynk-library-lua
+cd /root
+wget -qO- http://github.com/vshymanskyy/blynk-library-lua/archive/v0.1.2.tar.gz | tar xvz
+cd blynk-library-lua-0.1.2
+
+# Run it
+lua ./examples/client.lua <your_auth_token>
+```
+
 ## NodeMCU instructions
 
 It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-based device):
