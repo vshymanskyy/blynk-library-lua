@@ -49,7 +49,7 @@ OpenWrt:       opkg install lua luasocket luasec
 
 ## Bonus
 
-The `Timer` is included only for demonstration purposes.  
+The `Timer` is included for demonstration purposes.  
 Here are also some handy functions:
 
 ```lua
@@ -70,7 +70,7 @@ opkg install lua luasocket luasec
 # openssl is needed for wget to handle https://
 opkg install wget openssl-util
 
-# Get blynk-library-lua
+# Get blynk-library-lua from github
 cd /root
 wget -qO- https://github.com/vshymanskyy/blynk-library-lua/archive/v0.1.2.tar.gz | tar xvz
 cd blynk-library-lua-0.1.2
@@ -86,7 +86,9 @@ It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-bas
   You can use their [online build service](https://nodemcu-build.com/).  
   It is recommended to include `encoder`, `TLS/SSL` modules.
 - Edit `nodemcu.lua` example (put your `auth token` and wifi credentials)
-- Use `nodemcu-tool` or any other method to transfer lua files to the device:
+- Use `nodemcu-tool` or any other method to transfer lua files to the device.  
+  **Note:** the NodeMCU filesystem is "flat" (folders not supported), but it handles the `/` symbol nicely.  
+  Be sure to preserve the relative path when copying files:
     ```sh
     nodemcu-tool upload -mck ./blynk.lua ./blynk/pipe.lua ./blynk/nodemcu.lua
     nodemcu-tool upload ./examples/nodemcu.lua -n init.lua
