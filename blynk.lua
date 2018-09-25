@@ -65,6 +65,10 @@ function Blynk:syncVirtual(...)
   self:sendMsg(COMMAND.hw_sync, nil, 'vr\0'..table.concat({...}, '\0'))
 end
 
+function Blynk:notify(msg)
+  self:sendMsg(COMMAND.notify, nil, msg)
+end
+
 function Blynk:logEvent(evt, descr)
   self:sendMsg(COMMAND.event, nil, table.concat({evt, descr}, '\0'))
 end
