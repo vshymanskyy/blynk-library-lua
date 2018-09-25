@@ -12,9 +12,9 @@ If you like **Blynk** - give it a star, or fork it and contribute!
 __________
 
 ## What is Blynk?
-Blynk provides iOS and Android apps to control any hardware over the Internet or directly using Bluetooth.
-You can easily build graphic interfaces for all your projects by simply dragging and dropping widgets, right on your smartphone.
-Blynk is the most popular IoT platform used by design studios, makers, educators, and equipment vendors all over the world.
+Blynk provides **iOS** and **Android** apps to control any hardware **over the Internet** or **directly using Bluetooth**.
+You can easily build graphic interfaces for all your projects by simply dragging and dropping widgets, **right on your smartphone**.
+Blynk is **the most popular IoT platform** used by design studios, makers, educators, and equipment vendors all over the world.
 
 ![Blynk Banner](https://github.com/blynkkk/blynkkk.github.io/blob/master/images/GithubBanner.jpg)
 
