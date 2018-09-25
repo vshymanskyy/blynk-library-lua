@@ -1,5 +1,14 @@
 # Lua client for Blynk
 
+## What is Blynk?
+Blynk is a platform with iOS and Android apps to control Arduino, Raspberry Pi and the likes over the Internet.
+You can easily build graphic interfaces for all your projects by simply dragging and dropping widgets.
+
+![Dashboard](https://github.com/blynkkk/blynk-server/blob/master/docs/overview/dash.png)
+![Widgets Box](https://github.com/blynkkk/blynk-server/blob/master/docs/overview/widgets_box.png)
+
+* Social: [Webpage](http://www.blynk.cc) / [Facebook](http://www.fb.com/blynkapp) / [Twitter](http://twitter.com/blynk_app) / [Kickstarter](https://www.kickstarter.com/projects/167134865/blynk-build-an-app-for-your-arduino-project-in-5-m/description)
+
 ## Getting started
 
 ```lua
@@ -99,3 +108,19 @@ It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-bas
     ```lua
     blynk:virtualWrite(1, tmr.time())
     ```
+
+__________
+
+### Implementations for other platforms
+* [Arduino](https://github.com/blynkkk/blynk-library)
+* [Particle](https://github.com/vshymanskyy/blynk-library-spark)
+* [Node.js, Espruino, Browsers](https://github.com/vshymanskyy/blynk-library-js)
+* [Python, MicroPython](https://github.com/vshymanskyy/blynk-library-python)
+* [OpenWrt packages](https://github.com/vshymanskyy/blynk-library-openwrt)
+* [MBED](https://developer.mbed.org/users/vshymanskyy/code/Blynk/)
+* [Node-RED](https://www.npmjs.com/package/node-red-contrib-blynk-ws)
+* [LabVIEW](https://github.com/juncaofish/NI-LabVIEWInterfaceforBlynk)
+* [C#](https://github.com/sverrefroy/BlynkLibrary)
+
+### License
+This project is released under The MIT License (MIT)
