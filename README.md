@@ -1,8 +1,9 @@
 # Lua client for Blynk
 
 ## What is Blynk?
-Blynk is a platform with iOS and Android apps to control Arduino, Raspberry Pi and the likes over the Internet.
-You can easily build graphic interfaces for all your projects by simply dragging and dropping widgets.
+Blynk provides iOS and Android apps to control different hardware over the Internet or directly using Bluetooth.
+You can easily build graphic interfaces for all your projects by simply dragging and dropping widgets, right on your smartphone.
+Blynk is the most popular IoT platform used by design studios, makers, educators, and equipment vendors all over the world.
 
 ![Dashboard](https://github.com/blynkkk/blynk-server/blob/master/docs/overview/dash.png)
 ![Widgets Box](https://github.com/blynkkk/blynk-server/blob/master/docs/overview/widgets_box.png)
