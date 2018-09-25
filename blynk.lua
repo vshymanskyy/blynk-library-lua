@@ -34,6 +34,13 @@ local Blynk = {
 Blynk._VERSION = "0.1.2"
 Blynk.__index = Blynk
 
+print([[
+    ___  __          __
+   / _ )/ /_ _____  / /__
+  / _  / / // / _ \/  '_/
+ /____/_/\_, /_//_/_/\_\
+        /___/ for Lua v]] .. Blynk._VERSION .. "\n")
+
 function Blynk.new(auth, o)
   assert(string.len(auth) == 32, "Wrong auth token format")  --sanity check
   o = o or {}
