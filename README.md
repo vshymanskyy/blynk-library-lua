@@ -20,7 +20,6 @@ Blynk is the most popular IoT platform used by design studios, makers, educators
 ![Widgets Box](https://github.com/blynkkk/blynk-server/blob/master/docs/overview/widgets_box.png)
 
 ## Download
-**Blynk [Arduino Library](https://github.com/blynkkk/blynk-library/releases/latest)**
 
 **Blynk App: [Google Play](https://play.google.com/store/apps/details?id=cc.blynk) / [App Store](https://itunes.apple.com/us/app/blynk-control-arduino-raspberry/id808760481?ls=1&mt=8)**
 
@@ -34,7 +33,7 @@ Community Forum: http://community.blynk.cc
 Examples Browser: http://examples.blynk.cc  
 Blynk for Business: http://www.blynk.io
 
-## Getting started
+## Usage example
 
 ```lua
 local Blynk = require("blynk.socket")
@@ -65,14 +64,8 @@ You can run the [full example](examples/client.lua):
 lua ./examples/client.lua <your_auth_token>
 ```
 
-You will need `Lua 5.1`+ or `LuaJIT`. The only dependencies are `luasocket` and `luasec`:
-
-```sh
-Ubuntu/Linux:  sudo apt-get install lua5.3 lua-sec lua-socket
-OpenWrt:       opkg install lua luasocket luasec
-```
-
 ## Features
+- Lua 5.1, Lua 5.2, Lua 5.3, LuaJIT support
 - `virtualWrite`
 - `syncVirtual`
 - `setProperty`
@@ -81,21 +74,6 @@ OpenWrt:       opkg install lua luasocket luasec
 - events: `Vn`, `readVn`, `connected`, `disconnected`
 - `TCP` and secure `TLS/SSL` connection support
 - can run on embedded hardware, like `NodeMCU` or `OpenWrt`
-
-## Bonus
-
-The `Timer` is included for demonstration purposes.  
-Here are also some handy functions:
-
-```lua
-local function millis()
-  return math.floor(socket.gettime()*1000)
-end
-
-local function delay(msec)
-  return socket.sleep(msec/1000)
-end
-```
 
 ## OpenWrt instructions
 
@@ -134,6 +112,26 @@ It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-bas
     blynk:virtualWrite(1, tmr.time())
     ```
 
+## Ubuntu/Linux instructions
+
+```sh
+sudo apt-get install lua5.3 lua-sec lua-socket
+```
+
+## Bonus
+
+The `Timer` is included for demonstration purposes.  
+Here are also some handy functions:
+
+```lua
+local function millis()
+  return math.floor(socket.gettime()*1000)
+end
+
+local function delay(msec)
+  return socket.sleep(msec/1000)
+end
+```
 __________
 
 ### Implementations for other platforms
