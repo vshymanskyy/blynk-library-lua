@@ -20,7 +20,9 @@ Blynk is **the most popular IoT platform** used by design studios, makers, educa
 
 ## Download
 
-**Blynk App: [Google Play](https://play.google.com/store/apps/details?id=cc.blynk) / [App Store](https://itunes.apple.com/us/app/blynk-control-arduino-raspberry/id808760481?ls=1&mt=8)**
+**Blynk App: 
+[<img src="https://cdn.rawgit.com/simple-icons/simple-icons/develop/icons/googleplay.svg" width="18" height="18" /> Google Play](https://play.google.com/store/apps/details?id=cc.blynk) | 
+[<img src="https://cdn.rawgit.com/simple-icons/simple-icons/develop/icons/apple.svg" width="18" height="18" /> App Store](https://itunes.apple.com/us/app/blynk-control-arduino-raspberry/id808760481?ls=1&mt=8)**
 
 **Blynk [Server](https://github.com/blynkkk/blynk-server)**
 
