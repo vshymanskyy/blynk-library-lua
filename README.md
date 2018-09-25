@@ -42,6 +42,7 @@ OpenWrt:       opkg install lua luasocket luasec
 - `virtualWrite`
 - `syncVirtual`
 - `setProperty`
+- `notify`
 - `logEvent`
 - events: `Vn`, `readVn`, `connected`, `disconnected`
 - `TCP` and secure `TLS/SSL` connection support
@@ -72,8 +73,8 @@ opkg install openssl-util
 
 # Get blynk-library-lua
 cd /root
-wget -qO- http://github.com/vshymanskyy/blynk-library-lua/archive/v0.1.2.tar.gz | tar xvz
-cd blynk-library-lua-0.1.2
+wget -qO- http://github.com/vshymanskyy/blynk-library-lua/archive/v0.1.3.tar.gz | tar xvz
+cd blynk-library-lua-0.1.3
 
 # Run it
 lua ./examples/client.lua <your_auth_token>

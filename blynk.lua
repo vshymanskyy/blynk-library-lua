@@ -31,7 +31,7 @@ local Blynk = {
   log = function(...) end,
   _gettime = function() return os.time() end,
 }
-Blynk._VERSION = "0.1.2"
+Blynk._VERSION = "0.1.3"
 Blynk.__index = Blynk
 
 print([[
