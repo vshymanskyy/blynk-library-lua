@@ -26,7 +26,7 @@ local function connectBlynk()
 
   if use_ssl then
     print("Connecting Blynk (secure)...")
-    sock:connect(host, 8441)
+    sock:connect(host, 443)
     local opts = {
       mode = "client",
       protocol = "tlsv1"

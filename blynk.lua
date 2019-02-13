@@ -2,7 +2,7 @@
 
 local Pipe = require("blynk.pipe")
 
-local COMMAND = { rsp = 0, login = 2, ping = 6, tweet = 12, email = 13, notify = 14, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, debug = 55, event = 64 }
+local COMMAND = { rsp = 0, login = 2, ping = 6, tweet = 12, email = 13, notify = 14, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, hw_login = 29, debug = 55, event = 64 }
 local STATUS = { success = 200, invalid_token = 9 }
 local STATE_AUTH = "auth"
 local STATE_CONNECT    = "connected"
@@ -31,7 +31,7 @@ local Blynk = {
   log = function(...) end,
   _gettime = function() return os.time() end,
 }
-Blynk._VERSION = "0.1.3"
+Blynk._VERSION = "0.1.4"
 Blynk.__index = Blynk
 
 print([[
@@ -79,6 +79,8 @@ function Blynk:sendMsg(cmd, id, payload)
   if id == nil then
     id = self.msg_id
     self.msg_id = self.msg_id + 1
+    if self.msg_id > 0xFFFF then
+      self.msg_id = 1
   end
   self.log('< '..cmd..'|'..table.concat(split(payload, "\0"), ','))
   local len = string.len(payload)
@@ -96,7 +98,7 @@ function Blynk:connect()
   self.lastRecv, self.lastSend, self.lastPing = self._gettime(), 0, 0
   self.bin:clear()
   self.state = STATE_AUTH
-  self:sendMsg(COMMAND.login, nil, self.auth)
+  self:sendMsg(COMMAND.hw_login, nil, self.auth)
 end
 
 function Blynk:disconnect()

@@ -24,7 +24,7 @@ local function connectBlynk()
   if tls ~= nil then
     print("Connecting Blynk (secure)...")
     sock = tls.createConnection()
-    port = 8441
+    port = 443
   else]]
     print("Connecting Blynk...")
     sock = net.createConnection(net.TCP)
