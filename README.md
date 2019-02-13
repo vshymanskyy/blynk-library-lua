@@ -86,8 +86,8 @@ opkg install wget openssl-util libustream-openssl
 
 # Get blynk-library-lua from github
 cd /root
-wget --no-check-certificate -qO- https://github.com/vshymanskyy/blynk-library-lua/archive/v0.1.3.tar.gz | tar xvz
-cd blynk-library-lua-0.1.3
+wget --no-check-certificate -qO- https://github.com/vshymanskyy/blynk-library-lua/archive/v0.1.4.tar.gz | tar xvz
+cd blynk-library-lua-0.1.4
 
 # Run it
 lua ./examples/client.lua <your_auth_token>
