@@ -81,6 +81,7 @@ function Blynk:sendMsg(cmd, id, payload)
     self.msg_id = self.msg_id + 1
     if self.msg_id > 0xFFFF then
       self.msg_id = 1
+    end
   end
   self.log('< '..cmd..'|'..table.concat(split(payload, "\0"), ','))
   local len = string.len(payload)
