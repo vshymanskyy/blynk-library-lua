@@ -67,6 +67,7 @@ lua ./examples/client.lua <your_auth_token>
 
 ## Features
 - Lua 5.1, Lua 5.2, Lua 5.3, LuaJIT support
+- Windows, Linux, OSX
 - `virtualWrite`
 - `syncVirtual`
 - `setProperty`
@@ -76,7 +77,7 @@ lua ./examples/client.lua <your_auth_token>
 - `TCP` and secure `TLS/SSL` connection support
 - can run on embedded hardware, like `NodeMCU` or `OpenWrt`
 
-## OpenWrt instructions
+## OpenWrt installation
 
 ```sh
 opkg update
@@ -93,7 +94,7 @@ cd blynk-library-lua-0.1.3
 lua ./examples/client.lua <your_auth_token>
 ```
 
-## NodeMCU instructions
+## NodeMCU installation
 
 It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-based device):
 - Get the latest [nodemcu-firmware](https://github.com/nodemcu/nodemcu-firmware) running on your device.  
@@ -113,7 +114,7 @@ It is very easy to get it running on NodeMCU (or any other `ESP8266`/`ESP32`-bas
     blynk:virtualWrite(1, tmr.time())
     ```
 
-## Ubuntu/Linux instructions
+## Ubuntu/Linux/Raspberry Pi installation
 
 ```sh
 sudo apt-get install lua5.3 lua-sec lua-socket
