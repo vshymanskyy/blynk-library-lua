@@ -73,7 +73,7 @@ lua ./examples/client.lua <your_auth_token>
 - `virtualWrite`
 - `syncVirtual`
 - `setProperty`
-- `notify`
+- `notify`, `tweet`
 - `logEvent`
 - events: `Vn`, `readVn`, `connected`, `disconnected`
 - `TCP` and secure `TLS/SSL` connection support

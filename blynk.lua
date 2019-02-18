@@ -69,6 +69,10 @@ function Blynk:notify(msg)
   self:sendMsg(COMMAND.notify, nil, msg)
 end
 
+function Blynk:tweet(msg)
+  self:sendMsg(COMMAND.tweet, nil, msg)
+end
+
 function Blynk:logEvent(evt, descr)
   self:sendMsg(COMMAND.event, nil, table.concat({evt, descr}, '\0'))
 end
