@@ -24,7 +24,7 @@ local function split(str, delimiter)
 end
 
 local Blynk = {
-  heartbeat = 10,
+  heartbeat = 50,
   buffin = 1024,
   callbacks = {},
   state = STATE_DISCONNECT,

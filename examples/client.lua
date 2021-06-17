@@ -29,10 +29,10 @@ local function connectBlynk()
     sock:connect(host, 443)
     local opts = {
       mode = "client",
-      protocol = "tlsv1"
+      protocol = "tlsv1_2"
     }
     sock = assert(ssl.wrap(sock, opts))
-    sock:dohandshake()
+    assert(sock:dohandshake())
   else
     print("Connecting Blynk...")
     sock:connect(host, 80)
