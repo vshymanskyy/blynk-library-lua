@@ -14,12 +14,12 @@ assert(#arg >= 1, "Please specify Auth Token")
 local auth = arg[1]
 
 local blynk = Blynk.new(auth, {
-  heartbeat = 10, -- default h-beat is 30
+  heartbeat = 30, -- default h-beat is 50
   --log = print,
 })
 
 local function connectBlynk()
-  local host = "blynk-cloud.com"
+  local host = "blynk.cloud"
 
   local sock = assert(socket.tcp())
   sock:setoption("tcp-nodelay", true)

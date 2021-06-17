@@ -17,7 +17,7 @@ blynk = Blynk.new(config.auth, {
 })
 
 local function connectBlynk()
-  local host = "blynk-cloud.com"
+  local host = "blynk.cloud"
 
   local sock, port
   --[[TODO: TLS didn't work for some reason, commented out

@@ -2,7 +2,7 @@
 
 local Pipe = require("blynk.pipe")
 
-local COMMAND = { rsp = 0, login = 2, ping = 6, tweet = 12, email = 13, notify = 14, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, hw_login = 29, debug = 55, event = 64 }
+local COMMAND = { rsp = 0, login = 2, ping = 6, bridge = 15, hw_sync = 16, internal = 17, set_prop = 19, hw = 20, hw_login = 29, redirect = 41, debug = 55, event = 64 }
 local STATUS = { success = 200, invalid_token = 9 }
 local STATE_AUTH = "auth"
 local STATE_CONNECT    = "connected"
@@ -31,7 +31,7 @@ local Blynk = {
   log = function(...) end,
   _gettime = function() return os.time() end,
 }
-Blynk._VERSION = "0.1.4"
+Blynk._VERSION = "0.2.0"
 Blynk.__index = Blynk
 
 print([[
@@ -63,14 +63,6 @@ end
 
 function Blynk:syncVirtual(...)
   self:sendMsg(COMMAND.hw_sync, nil, 'vr\0'..table.concat({...}, '\0'))
-end
-
-function Blynk:notify(msg)
-  self:sendMsg(COMMAND.notify, nil, msg)
-end
-
-function Blynk:tweet(msg)
-  self:sendMsg(COMMAND.tweet, nil, msg)
 end
 
 function Blynk:logEvent(evt, descr)
@@ -170,6 +162,8 @@ function Blynk:process(data)
     elseif args[1] == 'vr' then
       self:emit("readV"..args[2])
     end
+  elseif cmd == COMMAND.redirect then
+    --TODO
   elseif cmd == COMMAND.debug then
     print("Server says: "..args[1])
   elseif cmd == COMMAND.internal then
