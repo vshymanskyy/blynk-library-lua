@@ -162,11 +162,12 @@ function Blynk:process(data)
     elseif args[1] == 'vr' then
       self:emit("readV"..args[2])
     end
+  elseif cmd == COMMAND.internal then
+    self:emit("internal:"..args[1], {unpack(args, 2)})
   elseif cmd == COMMAND.redirect then
     --TODO
   elseif cmd == COMMAND.debug then
     print("Server says: "..args[1])
-  elseif cmd == COMMAND.internal then
   else  --sanity check
     print("Unexpected command: "..cmd)
     self:disconnect()

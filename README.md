@@ -73,9 +73,8 @@ lua ./examples/client.lua <your_auth_token>
 - `virtualWrite`
 - `syncVirtual`
 - `setProperty`
-- `notify`, `tweet`
 - `logEvent`
-- events: `Vn`, `readVn`, `connected`, `disconnected`
+- events: `Vn`, `readVn`, `connected`, `disconnected`, `redirect`
 - `TCP` and secure `TLS/SSL` connection support
 - can run on embedded hardware, like `NodeMCU` or `OpenWrt`
 
@@ -145,7 +144,7 @@ __________
 * [Python, MicroPython](https://github.com/vshymanskyy/blynk-library-python)
 * [OpenWrt packages](https://github.com/vshymanskyy/blynk-library-openwrt)
 * [MBED](https://developer.mbed.org/users/vshymanskyy/code/Blynk/)
-* [Node-RED](https://www.npmjs.com/package/node-red-contrib-blynk-ws)
+* [Node-RED for Blynk IoT](https://flows.nodered.org/node/node-red-contrib-blynk-iot) and [for old Blynk](https://www.npmjs.com/package/node-red-contrib-blynk-ws)
 * [LabVIEW](https://github.com/juncaofish/NI-LabVIEWInterfaceforBlynk)
 * [C#](https://github.com/sverrefroy/BlynkLibrary)
 
