@@ -1,4 +1,6 @@
-# Lua client for Blynk
+# Lua client for Blynk IoT
+
+**Note:** The library has been updated for Blynk 2.0
 
 [![GitHub version](https://img.shields.io/github/release/vshymanskyy/blynk-library-lua.svg)](https://github.com/vshymanskyy/blynk-library-lua/releases/latest)
 [![GitHub download](https://img.shields.io/github/downloads/vshymanskyy/blynk-library-lua/total.svg)](https://github.com/vshymanskyy/blynk-library-lua/releases/latest)
@@ -20,18 +22,14 @@ Blynk is **the most popular IoT platform** used by design studios, makers, educa
 
 ## Download
 
-**Blynk App: 
-[<img src="https://cdn.rawgit.com/simple-icons/simple-icons/develop/icons/googleplay.svg" width="18" height="18" /> Google Play](https://play.google.com/store/apps/details?id=cc.blynk) | 
-[<img src="https://cdn.rawgit.com/simple-icons/simple-icons/develop/icons/apple.svg" width="18" height="18" /> App Store](https://itunes.apple.com/us/app/blynk-control-arduino-raspberry/id808760481?ls=1&mt=8)**
-
-**Blynk [Server](https://github.com/blynkkk/blynk-server)**
+**Blynk Mobile App:
+[<img src="https://cdn.rawgit.com/simple-icons/simple-icons/develop/icons/googleplay.svg" width="18" height="18" /> Google Play](https://play.google.com/store/apps/details?id=cloud.blynk) | 
+[<img src="https://cdn.rawgit.com/simple-icons/simple-icons/develop/icons/apple.svg" width="18" height="18" /> App Store](https://apps.apple.com/us/app/blynk-iot/id1559317868)**
 
 ## Documentation
 Social: [Webpage](http://www.blynk.cc) / [Facebook](http://www.fb.com/blynkapp) / [Twitter](http://twitter.com/blynk_app) / [Kickstarter](https://www.kickstarter.com/projects/167134865/blynk-build-an-app-for-your-arduino-project-in-5-m/description)  
-Help Center: http://help.blynk.cc  
-Documentation: http://docs.blynk.cc/#blynk-firmware  
+Documentation: https://docs.blynk.io  
 Community Forum: http://community.blynk.cc  
-Examples Browser: http://examples.blynk.cc  
 Blynk for Business: http://www.blynk.io
 
 ## Usage example
@@ -144,7 +142,7 @@ __________
 * [Python, MicroPython](https://github.com/vshymanskyy/blynk-library-python)
 * [OpenWrt packages](https://github.com/vshymanskyy/blynk-library-openwrt)
 * [MBED](https://developer.mbed.org/users/vshymanskyy/code/Blynk/)
-* [Node-RED for Blynk IoT](https://flows.nodered.org/node/node-red-contrib-blynk-iot) and [for old Blynk](https://www.npmjs.com/package/node-red-contrib-blynk-ws)
+* [Node-RED for Blynk IoT](https://flows.nodered.org/node/node-red-contrib-blynk-iot)
 * [LabVIEW](https://github.com/juncaofish/NI-LabVIEWInterfaceforBlynk)
 * [C#](https://github.com/sverrefroy/BlynkLibrary)
 
