@@ -82,7 +82,7 @@ lua ./examples/client.lua <your_auth_token>
 opkg update
 opkg install lua luasocket luasec
 # openssl is needed for wget to handle https://
-opkg install wget openssl-util libustream-openssl
+opkg install wget openssl-util libustream-wolfssl
 
 # Get blynk-library-lua from github
 cd /root
